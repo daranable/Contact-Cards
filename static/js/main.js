@@ -1,27 +1,34 @@
 let $ = window.$;
-$(function () {
-  let form = $('#data');
-  function createCell (data) {
-    return $(document.createElement('td')).addClass('mdl-data-table__cell--non-numeric')
-    .text(data);
+let form = $('#data');
+
+function createContact (data) {
+  var cardContainer = $('.mdl-grid');
+
+  var card = $(document.createElement('div'))
+      .addClass('contact-card mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--3-col mdl-cell--4-col-phone mdl-cell--4-col-tablet')
+      .attr('data-name', data[0].value + ' ' + data[1].value)
+      .attr('data-description', data[2].value);
+
+  card.append($(document.createElement('h2')).text(card.attr('data-name')));
+
+  cardContainer.append(card);
+}
+
+$(document).on('click', '.contact-card', function () {
+  let el = $(this);
+  if (el.children('h2').length) {
+    el.empty();
+    el.append($(document.createElement('p')).text(el.attr('data-description')));
+  } else {
+    el.empty();
+    el.append($(document.createElement('h2')).text(el.attr('data-name')));
   }
-  function display (details) {
-    console.log(details);
+});
 
-    var tbody = $('tbody');
-    var trow = $(document.createElement('tr'));
-    trow.append(createCell(details[0].value));
-    trow.append(createCell(details[1].value));
-    trow.append(createCell(details[2].value));
-    trow.append(createCell(details[3].value));
-    tbody.append(trow);
-  }
+form.submit(function (e) {
+  e.preventDefault();
 
-  form.submit(function (e) {
-    e.preventDefault();
+  createContact(form.serializeArray());
 
-    display(form.serializeArray());
-
-    document.getElementById('data').reset();
-  });
+  document.getElementById('data').reset();
 });

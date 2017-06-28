@@ -1,3 +1,15 @@
 .sample {
   padding-left: 20px;
 }
+
+.contact-card {
+  padding: 5px;
+}
+
+.contact-card p {
+  text-align: center;
+}
+
+.contact-card h2 {
+  text-align: center;
+}
